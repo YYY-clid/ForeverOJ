@@ -30,11 +30,12 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from "vue";
+import { reactive, onMounted } from "vue";
 import { UserControllerService, UserLoginRequest } from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
-import { useRouter } from "vue-router";
-import { useStore } from "vuex";
+import { useRouter, useRoute } from "vue-router";
+import { useStore } from "vuex"
+
 
 /**
  * 表单信息
@@ -45,7 +46,16 @@ const form = reactive({
 } as UserLoginRequest);
 
 const router = useRouter();
+const route = useRoute();
 const store = useStore();
+
+onMounted(() => {
+  // 从查询参数中获取 userAccount 并填充到表单中
+  const userAccountFromQuery = route.query.userAccount;
+  if (userAccountFromQuery) {
+    form.userAccount = userAccountFromQuery as string;
+  }
+});
 
 /**
  * 提交表单

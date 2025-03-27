@@ -30,16 +30,21 @@
         <a-button type="primary" html-type="submit" style="width: 120px">
           注册
         </a-button>
+        <a-button type="primary" html-type="submit" style="width: 120px;margin-left: 180px;" @click="returnToLogin">
+          返回登录
+        </a-button>
       </a-form-item>
     </a-form>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { reactive } from "vue";
-  import { UserControllerService, UserRegisterRequest } from "../../../generated";
-  import message from "@arco-design/web-vue/es/message";
-  import { useRouter } from "vue-router";
+import { reactive } from "vue";
+import { UserControllerService, UserRegisterRequest } from "../../../generated";
+import message from "@arco-design/web-vue/es/message";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+
 
   /**
  * 表单信息
@@ -63,6 +68,7 @@ const handleSubmit = async () => {
     message.success("注册成功，请登录");
     router.push({
       path: "/user/login",
+      query: { userAccount: form.userAccount },
       replace: true,
     });
   } else {
@@ -70,6 +76,11 @@ const handleSubmit = async () => {
   }
 };
 
-
+function returnToLogin() {
+  router.push({
+    path: "/user/login",
+    replace: true,
+  });
+}
 
 </script>

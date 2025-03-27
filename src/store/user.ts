@@ -2,6 +2,7 @@
 import { StoreOptions } from "vuex";
 import ACCESS_ENUM from "@/access/accessEnum";
 import { UserControllerService } from "../../generated";
+import { defineStore } from "pinia";
 
 export default {
   namespaced: true,
