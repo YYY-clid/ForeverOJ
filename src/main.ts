@@ -6,8 +6,9 @@ import router from "./router";
 import store from "./store";
 import "@/plugins/axios";
 import "@/access";
-import { createPinia } from "pinia"
+import 'bytemd/dist/index.css';
 
-createApp(App).use(ArcoVue).use(createPinia()).use(store).use(router).mount("#app");
+
+createApp(App).use(ArcoVue).use(store).use(router).mount("#app");
 
 
