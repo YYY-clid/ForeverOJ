@@ -1,11 +1,13 @@
 <template>
-    <div id="code-editor" ref="codeEditorRef" style="min-height: 400px;" />
+    <div id="code-editor" ref="codeEditorRef" style="min-height: 600px; height: 75vh;" />
+    
     <!-- <a-button @click="fillValue">填充值</a-button> -->
 </template>
 
 <script lang="ts" setup>
 import * as monaco from "monaco-editor";
-import { onMounted, ref, toRaw, withDefaults, defineProps } from "vue";
+import { languages } from "monaco-editor/esm/metadata";
+import { onMounted, ref, toRaw, withDefaults, defineProps, watch } from "vue";
 
 
 /**
@@ -13,11 +15,13 @@ import { onMounted, ref, toRaw, withDefaults, defineProps } from "vue";
  */ 
 interface Props {
   value: string;
+  language?: string;
   handleChange: (v: string) => void;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   value: () => "",
+  language: () => "java",
   handleChange: (v: string) => {
     console.log(v);
   },
@@ -26,12 +30,30 @@ const props = withDefaults(defineProps<Props>(), {
 const codeEditorRef = ref();
 const codeEditor = ref();
 
-const fillValue = () => {
-    if(!codeEditor.value) {
-        return;
-    }
-    toRaw(codeEditor.value).setValue("新的值")
-}
+// const fillValue = () => {
+//     if(!codeEditor.value) {
+//         return;
+//     }
+//     toRaw(codeEditor.value).setValue("新的值")
+// }
+
+watch(() => props.language, () => {
+    codeEditor.value = monaco.editor.create(codeEditorRef.value, {
+        value: props.value,
+        language: props.language,
+        automaticLayout: true,
+        minimap: { 
+            enabled: true,
+        },
+        colorDecorators: true,
+        // lineNumbers: "off",
+        // roundedSelection: false,
+        // scrollBeyondLastLine: false,
+        readOnly: false,
+        theme: "vs-dark",
+    });
+})
+
 
 onMounted(() => {
     if(!codeEditorRef.value) {
@@ -41,7 +63,7 @@ onMounted(() => {
     // Hover on each property to see its docs!
     codeEditor.value = monaco.editor.create(codeEditorRef.value, {
         value: props.value,
-        language: "java",
+        language: props.language,
         automaticLayout: true,
         minimap: { 
             enabled: true,
