@@ -10,6 +10,7 @@ import { languages } from "monaco-editor/esm/metadata";
 import { onMounted, ref, toRaw, withDefaults, defineProps, watch } from "vue";
 
 
+
 /**
  * 定义组件属性类型
  */ 
@@ -37,21 +38,15 @@ const codeEditor = ref();
 //     toRaw(codeEditor.value).setValue("新的值")
 // }
 
-watch(() => props.language, () => {
-    codeEditor.value = monaco.editor.create(codeEditorRef.value, {
-        value: props.value,
-        language: props.language,
-        automaticLayout: true,
-        minimap: { 
-            enabled: true,
-        },
-        colorDecorators: true,
-        // lineNumbers: "off",
-        // roundedSelection: false,
-        // scrollBeyondLastLine: false,
-        readOnly: false,
-        theme: "vs-dark",
-    });
+watch(
+    () => props.language, 
+    () => {
+    if(codeEditor.value) {
+        monaco.editor.setModelLanguage(
+            toRaw(codeEditor.value).getModel(), 
+            props.language
+        );
+    }
 })
 
 

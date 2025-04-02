@@ -19,10 +19,10 @@
           </a-select>
         </a-form-item>
         <a-form-item>
-          <a-button type="primary" @click="doSubmit">提交</a-button>
+          <a-button type="primary" @click="doSubmit">搜索</a-button>
         </a-form-item>
         <a-form-item>
-          <a-button @click="$refs.formRef.resetFields()">重置</a-button>
+          <a-button @click="resetForm">重置</a-button>
         </a-form-item>
       </a-form>
       <a-divider size="0"/>
@@ -65,8 +65,8 @@
   </template>
   
   <script setup lang="ts">
-  import { Question, QuestionControllerService, QuestionQueryRequest, QuestionSubmitControllerService } from "../../../generated";
-  import { onMounted, reactive, ref, watchEffect } from "vue";
+  import { Question, QuestionControllerService, QuestionQueryRequest } from "../../../generated";
+  import { onMounted, reactive, ref, watchEffect, onUnmounted } from "vue";
   import message from "@arco-design/web-vue/es/message";
   import { useRouter } from "vue-router";
   import moment from "moment";
@@ -82,6 +82,17 @@
     pageSize: 10,
     current: 1
   });
+  const timer = ref<number | NodeJS.Timeout | null>(null); // 定时器引用
+
+  const formRef = ref();
+  const initialSearchParams = {
+    id : undefined,
+    title: "",
+    tags: [],
+    difficulty: "",
+    pageSize: 10,
+    current: 1
+  };
   
   const tagColors: {[key: string]: string} = {
     'C++': 'red',
@@ -117,6 +128,13 @@
   
   onMounted(() => {
     loadData();
+    timer.value = setInterval(loadData, 3000); // 每3秒刷新一次数据
+  });
+
+  onUnmounted(() => {
+    if (timer.value !== null) {
+      clearInterval(timer.value);
+    }
   });
   
   const columns = [{
@@ -169,6 +187,11 @@
       current: 1,
     };
   }
+  const resetForm = () => {
+    Object.assign(searchParams, initialSearchParams);
+    formRef.value.resetFields();
+    loadData();
+  };
   </script>
   
   <style scoped>

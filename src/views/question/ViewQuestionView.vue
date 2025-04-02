@@ -39,13 +39,16 @@
         <a-col :md="12">
           <a-form :model="form" layout="inline">
             <a-form-item field="title" label="编程语言" style="min-width: 240px;">
-              <a-select v-model="form.language" :style="{width:'320px'}" placeholder="选择编程语言">
+              <a-select v-model="form.language" :style="{width:'100px'}" placeholder="选择编程语言">
                 <a-option>java</a-option>
-                <a-option>python</a-option>
                 <a-option>cpp</a-option>
-                <a-option>c</a-option>
                 <a-option>go</a-option>
+                <a-option>c</a-option>
+                <a-option>python</a-option>
               </a-select>
+              <a-tooltip :content="content" style="margin-left: 10px">
+                <a-button style="margin-left: 10px">?</a-button>
+              </a-tooltip>
             </a-form-item>
           </a-form>
           <CodeEditor 
@@ -61,7 +64,7 @@
   </template>
   
   <script setup lang="ts">
-  import { QuestionVO, QuestionControllerService, QuestionQueryRequest, QuestionSubmitControllerService, QuestionSubmitAddRequest } from "../../../generated";
+  import { QuestionVO, QuestionControllerService, QuestionSubmitAddRequest } from "../../../generated";
   import { onMounted, reactive, ref, watchEffect,defineProps } from "vue";
   import message from "@arco-design/web-vue/es/message";
   import { useRouter } from "vue-router";
@@ -72,7 +75,9 @@
   
   const question = ref<QuestionVO>();
   const codeValue = ref<string>('');
-
+  const content = ref({
+    java: "1.8",
+  })
 
   interface Props {
     id: string;
@@ -129,6 +134,8 @@
     code:'',
   })
 
+  const router = useRouter();
+
   /**
    * 提交代码
    */
@@ -137,16 +144,19 @@
       return;
     }
     // 将 questionId 合并到 form.value 中
-    const submitData: QuestionSubmitAddRequest = {
-      ...form.value,
-      questionId: question.value.id, // 添加 questionId 字段
-    };
-    const res = await QuestionSubmitControllerService.doQuestionSubmitUsingPost(submitData);
+    const res = await QuestionControllerService.doQuestionSubmitUsingPost({
+        ...form.value,
+        questionId: question.value.id,
+    });
     if(res.code === 0) {
       message.success('提交成功');
+      router.push({
+        path: `/questions_submit`,
+      });
     } else {
       message.error('提交失败，' + res.message);
     }
+
   }
   
   onMounted(() => {
