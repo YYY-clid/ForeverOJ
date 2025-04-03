@@ -1,30 +1,18 @@
 <template>
   <div id="manageQuestionView">
     <h2>题目管理</h2>
-    <a-table 
-      :ref="tableRef"
-      :columns="columns" 
-      :data="dataList" 
-      :pagination="{
-        showTotal: true,
-        pageSize: searchParams.pageSize, 
-        current: searchParams.current, 
-        total,
-      }"
-      @page-change="onPageChange"
-    >
+    <a-table :ref="tableRef" :columns="columns" :data="dataList" :pagination="{
+      showTotal: true,
+      pageSize: searchParams.pageSize,
+      current: searchParams.current,
+      total,
+    }" @page-change="onPageChange">
       <template #optional="{ record }">
         <a-space>
-          <a-button 
-            type="primary" 
-            @click="doUpdate(record)"
-          >
+          <a-button type="primary" @click="doUpdate(record)">
             修改
           </a-button>
-          <a-button 
-            status="danger" 
-            @click="doDelete(record)"
-          >
+          <a-button status="danger" @click="doDelete(record)">
             删除
           </a-button>
         </a-space>
@@ -32,10 +20,10 @@
     </a-table>
   </div>
 </template>
-  
+
 <script setup lang="ts">
 import { Question, QuestionControllerService, QuestionSubmitControllerService } from "../../../generated";
-import { onMounted, reactive, ref, watchEffect } from "vue";
+import { onMounted, reactive, ref, watchEffect, h } from "vue";
 import message from "@arco-design/web-vue/es/message"
 import { Pagination } from "@arco-design/web-vue";
 import { useRouter } from "vue-router";
@@ -54,7 +42,7 @@ const loadData = async () => {
   const res = await QuestionControllerService.listQuestionByPageWithAdminUsingPost(
     searchParams.value
   )
-  if(res.code === 0) {
+  if (res.code === 0) {
     dataList.value = res.data.records;
     total.value = res.data.total;
   } else {
@@ -76,48 +64,114 @@ onMounted(() => {
   loadData();
 })
 
-//{id: "1", title: "A+B", content: "请计算A+B并输出", tags: ["入门"], submitNum: 0, acceptedNum: 0,…}
-
 
 const columns = [{
-    title: 'id',
-    dataIndex: 'id',
+  title: 'id',
+  dataIndex: 'id',
+  render: ({ record }) => record.id || '-'
 }, {
-    title: '标题',
-    dataIndex: 'title',
+  title: '标题',
+  dataIndex: 'title',
+  render: ({ record }) => {
+    return h('div', {
+      style: {
+        'max-width': '250px',
+        'overflow': 'hidden',
+        'text-overflow': 'ellipsis',
+        'white-space': 'nowrap'
+      }
+    }, record.title || '-');
+  }
 }, {
-    title: '内容',
-    dataIndex: 'content',
+  title: '内容',
+  dataIndex: 'content',
+  render: ({ record }) => {
+    return h('div', {
+      style: {
+        'max-width': '200px',
+        'overflow': 'hidden',
+        'text-overflow': 'ellipsis',
+        'white-space': 'nowrap'
+      }
+    }, record.content || '-');
+  }
 }, {
-    title: '标签',
-    dataIndex: 'tags',
+  title: '标签',
+  dataIndex: 'tags',
+  render: ({ record }) => record.tags || '-'
 }, {
-    title: '难度',
-    dataIndex: 'difficulty',
-},{
-    title: '答案',
-    dataIndex: 'answer',
-},{
-    title: '提交数',
-    dataIndex: 'submitNum',
-},{
-    title: '通过数',
-    dataIndex: 'acceptedNum',
-},{
-    title: '判题配置',
-    dataIndex: 'judgeConfig',
-},{
-    title: '判题用例',
-    dataIndex: 'judgeCase',
-},{
-    title: '用户id',
-    dataIndex: 'userId',
-},{
-    title: '创建时间',
-    dataIndex: 'createTime',
-},{
-    title: '操作',
-    slotName: 'optional'
+  title: '难度',
+  dataIndex: 'difficulty',
+  render: ({ record }) => record.difficulty || '-'
+}, {
+  title: '答案',
+  dataIndex: 'answer',
+  width: 200,
+  render: ({ record }) => {
+    return h('div', {
+      style: {
+        'max-width': '200px',
+        'overflow': 'hidden',
+        'text-overflow': 'ellipsis',
+        'white-space': 'nowrap'
+      }
+    }, record.answer || '-');
+  }
+}, {
+  title: '提交数',
+  dataIndex: 'submitNum',
+  render: ({ record }) => record.submitNum || '-'
+}, {
+  title: '通过数',
+  dataIndex: 'acceptedNum',
+  render: ({ record }) => record.acceptedNum || '-'
+}, {
+  title: '判题配置',
+  dataIndex: 'judgeConfig',
+  render: ({ record }) => {
+    try {
+      const config = JSON.parse(record.judgeConfig);
+      return h('div', {
+        innerHTML: `时间限制: ${config.timeLimit}ms<br>内存限制: ${config.memoryLimit}KB<br>栈限制: ${config.stackLimit}KB`
+      });
+    } catch (e) {
+      return '-';
+    }
+  }
+}, {
+  title: '判题用例',
+  dataIndex: 'judgeCase',
+  render: ({ record }) => {
+    try {
+      const cases = JSON.parse(record.judgeCase);
+      return h('div', {
+        innerHTML: cases.map((testCase, index) =>
+          `用例 ${index + 1}:<br>输入: ${testCase.input}<br>输出: ${testCase.output}`
+        ).join('<br><br>')
+      });
+    } catch (e) {
+      return '-';
+    }
+  }
+}, {
+  title: '用户id',
+  dataIndex: 'userId',
+  render: ({ record }) => record.userId || '-'
+}, {
+  title: '创建时间',
+  dataIndex: 'createTime',
+  render: ({ record }) => {
+    return record.createTime ? new Date(record.createTime).toLocaleString('zh-CN', {
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
+    }) : '-';
+  }
+}, {
+  title: '操作',
+  slotName: 'optional'
 }];
 
 const onPageChange = (page: number) => {
@@ -127,7 +181,7 @@ const onPageChange = (page: number) => {
   };
 };
 
-const doDelete = async (question : Question) => {
+const doDelete = async (question: Question) => {
   const res = await QuestionControllerService.deleteQuestionUsingPost({
     id: question.id
   });
@@ -141,7 +195,7 @@ const doDelete = async (question : Question) => {
 
 const router = useRouter();
 
-const doUpdate = (question : Question) => {
+const doUpdate = (question: Question) => {
   router.push({
     path: "/update/question",
     query: {
@@ -153,8 +207,10 @@ const doUpdate = (question : Question) => {
 </script>
 
 
-  <style scoped>
-  #manageQuestionView {
-  }
-  </style>
-  
+<style scoped>
+#manageQuestionView {}
+
+:deep(.arco-table-td) {
+  line-height: 1.5;
+}
+</style>

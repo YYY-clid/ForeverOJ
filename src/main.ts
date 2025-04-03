@@ -9,6 +9,11 @@ import "@/access";
 import 'bytemd/dist/index.css';
 
 
+const script = document.createElement("script");
+script.src = "https://fastly.jsdelivr.net/gh/RicardoLou/live2d-widget@v1.0.1/autoload.js";
+script.async = true;
+document.body.appendChild(script);
 createApp(App).use(ArcoVue).use(store).use(router).mount("#app");
+
 
 

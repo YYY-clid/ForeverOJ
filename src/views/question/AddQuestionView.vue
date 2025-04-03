@@ -109,9 +109,10 @@
   import MdEditor from "@/components/MdEditor.vue";
   import { QuestionControllerService } from "../../../generated";
   import message from "@arco-design/web-vue/es/message";
-  import { useRoute } from "vue-router";
+  import { useRoute, useRouter } from "vue-router";
   
   const route = useRoute();
+  const router = useRouter();
   // 如果页面地址包含 update，视为更新页面
   const updatePage = route.path.includes("update");
   
@@ -203,6 +204,7 @@
         message.error("创建失败，" + res.message);
       }
     }
+    router.push("/manage/question");
   };
   
   /**

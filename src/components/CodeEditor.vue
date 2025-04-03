@@ -18,6 +18,7 @@ interface Props {
   value: string;
   language?: string;
   handleChange: (v: string) => void;
+  options?: any;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -26,6 +27,7 @@ const props = withDefaults(defineProps<Props>(), {
   handleChange: (v: string) => {
     console.log(v);
   },
+  options: () => ({})
 });
 
 const codeEditorRef = ref();
@@ -61,7 +63,7 @@ onMounted(() => {
         language: props.language,
         automaticLayout: true,
         minimap: { 
-            enabled: true,
+            enabled: false,
         },
         colorDecorators: true,
         // lineNumbers: "off",
@@ -69,6 +71,7 @@ onMounted(() => {
         // scrollBeyondLastLine: false,
         readOnly: false,
         theme: "vs-dark",
+        ...props.options
     });
     codeEditor.value.onDidChangeModelContent(() => {
         props.handleChange(toRaw(codeEditor.value).getValue())

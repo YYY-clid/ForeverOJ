@@ -7,11 +7,11 @@
         </a-form-item>
         <a-form-item field="language" label="编程语言" style="min-width: 240px;">
           <a-select v-model="searchParams.language" :style="{width:'200px'}" placeholder="选择编程语言">
-            <a-option>java</a-option>
-            <a-option>cpp</a-option>
-            <a-option>go</a-option>
-            <a-option>c</a-option>
-            <a-option>python</a-option>
+            <a-option>Java</a-option>
+            <a-option>Cpp</a-option>
+            <a-option>Go</a-option>
+            <a-option>C</a-option>
+            <a-option>Python</a-option>
           </a-select>
         </a-form-item>
         <a-form-item>
@@ -35,8 +35,7 @@
         @page-change="onPageChange"
         @sorter-change="onSorterChange"
       >
-        <template #judgeInfo="{ record }">{{ JSON.stringify(record.judgeInfo) }}</template>
-        <template #createTime="{ record }">{{ moment(record.createTime).format("YYYY-MM-DD") }}</template>
+        <template #createTime="{ record }">{{ moment(record.createTime).format("MM-DD HH:mm") }}</template>
       </a-table>
     </div>
   </template>
@@ -101,13 +100,39 @@
   }, {
       title: '编程语言',
       dataIndex: 'language',
+      render: ({ record }) => {
+        return record.language?.charAt(0).toUpperCase() + record.language?.slice(1).toLowerCase() || '-';
+      }
   }, {
-      title: '判题信息',
+      title: '判题结果',
       dataIndex: 'judgeInfo',
-      slotName: 'judgeInfo',
+      render: ({ record }) => {
+        try {
+          return record.judgeInfo?.message || '-';
+        } catch (e) {
+          return '信息获取错误';
+        }
+      }
   }, {
-      title: '判题状态',
-      dataIndex: 'status',
+      title: '内存使用(KB)',
+      dataIndex: 'judgeInfo',
+      render: ({ record }) => {
+        try {
+          return record.judgeInfo?.memory || '-';
+        } catch (e) {
+          return '信息获取错误';
+        }
+      }
+  }, {
+      title: '运行时间(ms)',
+      dataIndex: 'judgeInfo',
+      render: ({ record }) => {
+        try {
+          return record.judgeInfo?.time || '-';
+        } catch (e) {
+          return '信息获取错误';
+        }
+      }
   }, {
       title: '题目 id',
       dataIndex: 'questionId',
