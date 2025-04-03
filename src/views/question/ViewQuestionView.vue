@@ -46,9 +46,17 @@
               <a-option>c</a-option>
               <a-option>python</a-option>
             </a-select>
-            <a-tooltip :content="content" style="margin-left: 10px">
+            <a-popover trigger="hover" placement="top">
+              <template #content>
+                <p>编程语言版本说明</p>
+                <p>java : 1.8</p>
+                <p>cpp : c11</p>
+                <p>python : 3</p>
+                <p>go : 3.2.1</p>
+                <p>c : c11</p>
+              </template>
               <a-button style="margin-left: 10px">?</a-button>
-            </a-tooltip>
+            </a-popover>
           </a-form-item>
         </a-form>
         <CodeEditor :value="form.code as string" :language="form.language as string" :handle-change="changeCode"
@@ -83,9 +91,9 @@
                   <a-button type="primary" class="send-button" @click="sendMessage">发送</a-button>
                 </a-input-group> -->
                 <div class="input-container">
-  <input v-model="inputMessage" class="input-box" placeholder="输入消息..." />
-  <button class="send-button" @click="sendMessage">发送</button>
-</div>
+                  <input v-model="inputMessage" class="input-box" placeholder="输入消息..." />
+                  <button class="send-button" @click="sendMessage">发送</button>
+                </div>
               </div>
             </a-card>
       </a-col>
@@ -94,7 +102,7 @@
 </template>
 
 <script setup lang="ts">
-import { QuestionVO, QuestionControllerService, QuestionSubmitAddRequest } from "../../../generated";
+import { QuestionVO, QuestionControllerService, QuestionSubmitAddRequest, Question } from "../../../generated";
 import { onMounted, reactive, ref, watchEffect, defineProps, onUnmounted, nextTick } from "vue";
 import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
@@ -455,7 +463,7 @@ const toggleChat = () => {
 }
 
 .messages-container {
-  max-height: 850px;
+  max-height: 60%;
   overflow-y: auto;
 }
 

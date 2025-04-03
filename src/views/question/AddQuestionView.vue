@@ -191,6 +191,7 @@
       );
       if (res.code === 0) {
         message.success("更新成功");
+        router.push("/manage/question");
       } else {
         message.error("更新失败，" + res.message);
       }
@@ -200,11 +201,11 @@
       );
       if (res.code === 0) {
         message.success("创建成功");
+        router.push("/manage/question");
       } else {
         message.error("创建失败，" + res.message);
       }
     }
-    router.push("/manage/question");
   };
   
   /**
@@ -235,6 +236,8 @@
   
   <style scoped>
   #addQuestionView {
+    /* background: url("https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png")
+    0% 0% / 100% 100%; */
   }
   </style>
   

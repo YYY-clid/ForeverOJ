@@ -11,6 +11,7 @@ import ManageQuestionView from "@/views/question/ManageQuestionView.vue";
 import QuestionsView from "@/views/question/QuestionsView.vue";
 import QuestionSubmitView from "@/views/question/QuestionSubmitView.vue";
 import ViewQuestionView from "@/views/question/ViewQuestionView.vue";
+import UserHome from "@/views/user/UserHome.vue";
 
 export const routes: Array<RouteRecordRaw> = [
   {
@@ -32,6 +33,11 @@ export const routes: Array<RouteRecordRaw> = [
     meta: {
       hideInMenu: true,
     },
+  },
+  {
+    path: "/",
+    name: "主页",
+    component: UserHome,
   },
   {
     path: "/questions",
@@ -78,11 +84,7 @@ export const routes: Array<RouteRecordRaw> = [
       access: ACCESS_ENUM.ADMIN,
     },
   },
-  {
-    path: "/",
-    name: "主页",
-    component: QuestionsView,
-  },
+  
   // {
   //   path: "/hide",
   //   name: "隐藏页面",

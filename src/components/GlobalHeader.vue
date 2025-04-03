@@ -23,7 +23,21 @@
     </a-col>
     <a-col flex="100px">
       <div>
-        {{ store.state.user?.loginUser?.userName ?? "未登录" }}
+        <a-popover
+          trigger="hover"
+          popover-class="custom-popover"
+        >
+          <template #content>
+            <div class="user-info-popover">
+              <p>用户名：{{ store.state.user?.loginUser?.userName ?? "未登录" }}</p>
+              <p>邮箱：{{ store.state.user?.loginUser?.email ?? "未绑定" }}</p>
+              <a-button type="primary" @click="handleLogout">退出登录</a-button>
+            </div>
+          </template>
+          <div class="username-display">
+            {{ store.state.user?.loginUser?.userName ?? "未登录" }}
+          </div>
+        </a-popover>
       </div>
     </a-col>
   </a-row>
@@ -36,6 +50,9 @@ import { computed, ref } from "vue";
 import { useStore } from "vuex";
 import checkAccess from "@/access/checkAccess";
 import ACCESS_ENUM from "@/access/accessEnum";
+import message from "@arco-design/web-vue/es/message";
+import { UserControllerService } from "../../generated";
+import axios from "axios";
 
 const router = useRouter();
 const store = useStore();
@@ -68,7 +85,7 @@ console.log();
 
 setTimeout(() => {
   store.dispatch("user/getLoginUser", {
-    userName: "鱼皮管理员",
+    userName: "管理员",
     userRole: ACCESS_ENUM.ADMIN,
   });
 }, 3000);
@@ -78,6 +95,14 @@ const doMenuClick = (key: string) => {
     path: key,
   });
 };
+
+const handleLogout = async () => {
+  await UserControllerService.userLogoutUsingPost();
+  router.push({
+    path: "/user/login",
+    replace: true,
+  });
+}
 </script>
 
 <style scoped>
@@ -93,5 +118,27 @@ const doMenuClick = (key: string) => {
 
 .logo {
   height: 48px;
+}
+
+.username-display {
+  cursor: pointer;
+  text-align: center;
+  margin-right: 30px;
+}
+
+.user-info-popover {
+  text-align: center;
+}
+
+.user-info-popover p {
+  margin: 8px 0;
+}
+
+.user-info-popover .a-button {
+  margin-top: 8px;
+}
+
+.custom-popover {
+  max-width: 50px;
 }
 </style>

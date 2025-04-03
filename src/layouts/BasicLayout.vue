@@ -8,7 +8,7 @@
         <router-view />
       </a-layout-content>
       <a-layout-footer class="footer">
-        <a href="https://yupi.icu" target="_blank">
+        <a href="https://www.github.com/YYY-clid" target="_blank">
           ForeverOJ by RicardoLou
         </a>
       </a-layout-footer>

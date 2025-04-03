@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { Question, QuestionControllerService, QuestionSubmitControllerService } from "../../../generated";
+import { Question, QuestionControllerService } from "../../../generated";
 import { onMounted, reactive, ref, watchEffect, h } from "vue";
 import message from "@arco-design/web-vue/es/message"
 import { Pagination } from "@arco-design/web-vue";
@@ -208,7 +208,9 @@ const doUpdate = (question: Question) => {
 
 
 <style scoped>
-#manageQuestionView {}
+#manageQuestionView {
+  
+}
 
 :deep(.arco-table-td) {
   line-height: 1.5;
