@@ -50,7 +50,7 @@
         </template>
         <template #acceptedRate="{ record }">
           {{ 
-            `${record.submitNum ? (record.acceptedNum / record.submitNum) * 100 : "0"}% 
+            `${record.submitNum ? Math.round((record.acceptedNum / record.submitNum) * 100) : "0"}% 
             (${record.acceptedNum}/${record.submitNum})` 
           }}
         </template>
@@ -65,7 +65,7 @@
   </template>
   
   <script setup lang="ts">
-  import { Question, QuestionControllerService, QuestionQueryRequest } from "../../../generated";
+  import { Question, QuestionControllerService, QuestionQueryRequest } from "../../../generated/question";
   import { onMounted, reactive, ref, watchEffect, onUnmounted } from "vue";
   import message from "@arco-design/web-vue/es/message";
   import { useRouter } from "vue-router";
@@ -79,7 +79,7 @@
     title: "",
     tags: [],
     difficulty: "",
-    pageSize: 10,
+    pageSize: 5,
     current: 1
   });
   const timer = ref<number | NodeJS.Timeout | null>(null); // 定时器引用

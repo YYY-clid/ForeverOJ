@@ -61,6 +61,8 @@
         </a-form>
         <CodeEditor :value="form.code as string" :language="form.language as string" :handle-change="changeCode"
           :options="{ minimap: { enabled: false } }" />
+          <a-divider size="0" />
+          <a-button type="primary" style="min-width: 200px;" @click="doSubmit">提交代码</a-button>
       </a-col>
       <a-col :md="6" :xs="24" class="chat-panel" :class="{ 'collapsed': isChatCollapsed }">
         <div class="chat-toggle" @click="toggleChat">
@@ -102,7 +104,7 @@
 </template>
 
 <script setup lang="ts">
-import { QuestionVO, QuestionControllerService, QuestionSubmitAddRequest, Question } from "../../../generated";
+import { QuestionVO, QuestionControllerService, QuestionSubmitAddRequest, Question , QuestionInnerControllerService} from "../../../generated/question";
 import { onMounted, reactive, ref, watchEffect, defineProps, onUnmounted, nextTick } from "vue";
 import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";

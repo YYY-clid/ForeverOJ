@@ -18,11 +18,11 @@ export class WxMpControllerService {
      * @throws ApiError
      */
     public static checkUsingGet(
-echostr?: string,
-nonce?: string,
-signature?: string,
-timestamp?: string,
-): CancelablePromise<string> {
+        echostr?: string,
+        nonce?: string,
+        signature?: string,
+        timestamp?: string,
+    ): CancelablePromise<string> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/',

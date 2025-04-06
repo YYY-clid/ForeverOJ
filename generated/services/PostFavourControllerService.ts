@@ -22,8 +22,8 @@ export class PostFavourControllerService {
      * @throws ApiError
      */
     public static doPostFavourUsingPost(
-postFavourAddRequest: PostFavourAddRequest,
-): CancelablePromise<BaseResponse_int_ | any> {
+        postFavourAddRequest: PostFavourAddRequest,
+    ): CancelablePromise<BaseResponse_int_ | any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/post_favour/',
@@ -44,8 +44,8 @@ postFavourAddRequest: PostFavourAddRequest,
      * @throws ApiError
      */
     public static listFavourPostByPageUsingPost(
-postFavourQueryRequest: PostFavourQueryRequest,
-): CancelablePromise<BaseResponse_Page_PostVO_ | any> {
+        postFavourQueryRequest: PostFavourQueryRequest,
+    ): CancelablePromise<BaseResponse_Page_PostVO_ | any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/post_favour/list/page',
@@ -66,8 +66,8 @@ postFavourQueryRequest: PostFavourQueryRequest,
      * @throws ApiError
      */
     public static listMyFavourPostByPageUsingPost(
-postQueryRequest: PostQueryRequest,
-): CancelablePromise<BaseResponse_Page_PostVO_ | any> {
+        postQueryRequest: PostQueryRequest,
+    ): CancelablePromise<BaseResponse_Page_PostVO_ | any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/post_favour/my/list/page',

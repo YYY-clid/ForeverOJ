@@ -26,6 +26,10 @@
     0% 0% / 100% 100%;
 }
 
+a {
+  text-decoration: none;
+}
+
 #userLayout .logo {
   width: 64px;
   height: 64px;
@@ -41,6 +45,7 @@
 }
 
 #userLayout .footer {
+  background: linear-gradient(to right, #fefefe, #fff);
   padding: 16px;
   position: sticky;
   bottom: 0;

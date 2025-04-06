@@ -9,7 +9,7 @@
       </a-layout-content>
       <a-layout-footer class="footer">
         <a href="https://www.github.com/YYY-clid" target="_blank">
-          ForeverOJ by RicardoLou
+          ForeverOJ by YYY-clid
         </a>
       </a-layout-footer>
     </a-layout>
@@ -32,13 +32,17 @@
 }
 
 #basicLayout .footer {
-  background: #efefef;
-  padding: 16px;
+  background: linear-gradient(to right, #d3d3d3, #f0f0f0);
+  padding: 20px;
   position: sticky;
   bottom: 0;
   left: 0;
   right: 0;
   text-align: center;
+}
+
+a {
+  text-decoration: none;
 }
 </style>
 <script>

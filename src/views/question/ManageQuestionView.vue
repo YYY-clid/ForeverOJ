@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { Question, QuestionControllerService } from "../../../generated";
+import { Question, QuestionControllerService } from "../../../generated/question";
 import { onMounted, reactive, ref, watchEffect, h } from "vue";
 import message from "@arco-design/web-vue/es/message"
 import { Pagination } from "@arco-design/web-vue";

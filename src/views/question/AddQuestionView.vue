@@ -107,7 +107,7 @@
   <script setup lang="ts">
   import { onMounted, ref } from "vue";
   import MdEditor from "@/components/MdEditor.vue";
-  import { QuestionControllerService } from "../../../generated";
+  import { QuestionControllerService } from "../../../generated/question";
   import message from "@arco-design/web-vue/es/message";
   import { useRoute, useRouter } from "vue-router";
   
@@ -123,9 +123,9 @@
     difficulty: "",
     content: "",
     judgeConfig: {
-      memoryLimit: 1000,
-      stackLimit: 1000,
-      timeLimit: 1000,
+      memoryLimit: 262144, // 默认 256MB
+      stackLimit: 262144, // 默认 256MB
+      timeLimit: 2000, // 默认 2 秒
     },
     judgeCase: [
       {

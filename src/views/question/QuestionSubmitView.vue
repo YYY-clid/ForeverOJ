@@ -41,7 +41,7 @@
   </template>
   
   <script setup lang="ts">
-  import { Question, QuestionControllerService, QuestionQueryRequest, QuestionSubmitQueryRequest } from "../../../generated";
+  import { Question, QuestionControllerService, QuestionQueryRequest, QuestionSubmitQueryRequest } from "../../../generated/question";
   import { onMounted, reactive, ref, watchEffect, onUnmounted } from "vue";
   import message from "@arco-design/web-vue/es/message";
   import { useRouter } from "vue-router";

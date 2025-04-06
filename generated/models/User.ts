@@ -8,6 +8,7 @@ export type User = {
     id?: number;
     isDelete?: number;
     mpOpenId?: string;
+    submitNumber?: number;
     unionId?: string;
     updateTime?: string;
     userAccount?: string;
@@ -17,3 +18,4 @@ export type User = {
     userProfile?: string;
     userRole?: string;
 };
+

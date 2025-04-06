@@ -6,3 +6,4 @@
 export type PostThumbAddRequest = {
     postId?: number;
 };
+

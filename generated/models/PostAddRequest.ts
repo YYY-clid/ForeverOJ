@@ -8,3 +8,4 @@ export type PostAddRequest = {
     tags?: Array<string>;
     title?: string;
 };
+
