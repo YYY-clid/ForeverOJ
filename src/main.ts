@@ -1,3 +1,11 @@
+console.warn = (...args: any[]) => {
+    const msg = args[0];
+    if (typeof msg === 'string' && msg.includes('ResizeObserver loop')) {
+      return;
+    }
+  };
+
+
 import { createApp } from "vue";
 import App from "./App.vue";
 import ArcoVue from "@arco-design/web-vue";
@@ -7,6 +15,7 @@ import store from "./store";
 import "@/plugins/axios";
 import "@/access";
 import 'bytemd/dist/index.css';
+
 
 
 const script = document.createElement("script");

@@ -32,5 +32,13 @@ onMounted(() => {
   doInit();
 });
 
+import { debounce } from "lodash";
+const resizeObserver  = (window as any).ResizeObserver;
+(window as any).ResizeObserver = class ResizeObserver extends resizeObserver  {
+  constructor(callback: (...args: any[]) => void) {
+    callback = debounce(callback, 100);
+    super(callback);
+  }
+};
 
 </script>

@@ -108,7 +108,7 @@
       dataIndex: 'judgeInfo',
       render: ({ record }) => {
         try {
-          return record.judgeInfo?.message || '-';
+          return record.judgeInfo?.message || 'Pending';
         } catch (e) {
           return '信息获取错误';
         }
